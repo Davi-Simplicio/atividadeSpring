@@ -1,5 +1,6 @@
 package com.atividadespring.atividadespring.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,10 +21,13 @@ public class Curso {
     private String titulo;
     private String descricao;
     private LocalDateTime dataDeCriacao;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Instrutor instrutor;
-    @OneToMany(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL,mappedBy = "curso")
     private List<Aula> aulas;
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL)
     private List<Inscricao> inscricoes;
 }

@@ -16,35 +16,25 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @Controller
-@RequestMapping("/aula")
+@RequestMapping("/api/courses/{courseid}/lessons")
 public class AulaController {
 
     private AulaService aulaService;
 
     @PostMapping
-    public ResponseEntity<Aula> cadastrar(@RequestBody AulaCadastroDTO aulaCadastroDTO){
+    public ResponseEntity<Aula> cadastrar(@RequestBody AulaCadastroDTO aulaCadastroDTO, @PathVariable Long courseid){
         try{
-            aulaService.cadastrar(aulaCadastroDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(aulaService.cadastrar(aulaCadastroDTO,courseid),HttpStatus.OK);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping
-    public ResponseEntity<Aula> editar(@RequestBody AulaEdicaoDTO aulaEdicaoDTO){
+    @PutMapping("{id}")
+    public ResponseEntity<Aula> editar(@RequestBody AulaEdicaoDTO aulaEdicaoDTO, @PathVariable Long id, @PathVariable Long courseid){
         try{
-            aulaService.editar(aulaEdicaoDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(aulaService.editar(aulaEdicaoDTO,id,courseid),HttpStatus.OK);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-    }
-    @GetMapping
-    public List<Aula> buscarTodos(){
-        return aulaService.buscarTodos();
-    }
-    @GetMapping("/{id}")
-    public Aula buscarUm(@PathVariable Long id){
-        return aulaService.buscarUm(id);
     }
 }

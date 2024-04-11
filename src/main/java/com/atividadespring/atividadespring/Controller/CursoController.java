@@ -20,24 +20,23 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @Controller
-@RequestMapping("/curso")
+@RequestMapping("/api/courses")
 public class CursoController {
     private CursoService cursoService;
 
     @PostMapping
     public ResponseEntity<Curso> cadastrar(@RequestBody CursoCadastroDTO cursoCadastroDTO){
         try{
-            cursoService.cadastrar(cursoCadastroDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(cursoService.cadastrar(cursoCadastroDTO), HttpStatus.OK);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping
-    public ResponseEntity<Curso> editar(@RequestBody CursoEdicaoDTO cursoEdicaoDTO){
+    @PutMapping("{id}")
+    public ResponseEntity<Curso> editar(@RequestBody CursoEdicaoDTO cursoEdicaoDTO,@PathVariable Long id){
         try{
-            cursoService.editar(cursoEdicaoDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+
+            return new ResponseEntity<>(cursoService.editar(cursoEdicaoDTO,id), HttpStatus.OK);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

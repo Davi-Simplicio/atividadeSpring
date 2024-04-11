@@ -20,34 +20,13 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @Controller
-@RequestMapping("/certificado")
+@RequestMapping("/api/users/{userId}/certificates")
 public class CertificadoController {
     private CertificadoService certificadoService;
 
-    @PostMapping
-    public ResponseEntity<Certificado> cadastrar(@RequestBody CertificadoCadastroDTO certificadoCadastroDTO){
-        try{
-            certificadoService.cadastrar(certificadoCadastroDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception exception){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
-    @PutMapping
-    public ResponseEntity<Certificado> editar(@RequestBody CertificadoEdicaoDTO certificadoEdicaoDTO){
-        try{
-            certificadoService.editar(certificadoEdicaoDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
-        }catch (Exception exception){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-    }
     @GetMapping
-    public List<Certificado> buscarTodos(){
-        return certificadoService.buscarTodos();
+    public List<Certificado> buscarTodos(@PathVariable Long userId){
+        return certificadoService.buscarTodos(userId);
     }
-    @GetMapping("/{id}")
-    public Certificado buscarUm(@PathVariable Long id){
-        return certificadoService.buscarUm(id);
-    }
+
 }

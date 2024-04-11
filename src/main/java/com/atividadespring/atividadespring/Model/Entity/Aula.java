@@ -1,5 +1,6 @@
 package com.atividadespring.atividadespring.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,6 +20,7 @@ public class Aula {
     private String titulo;
     private String conteudo;
     private LocalDateTime dataDePublicacao;
-    @OneToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
     private Curso curso;
 }

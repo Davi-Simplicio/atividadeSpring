@@ -1,5 +1,6 @@
 package com.atividadespring.atividadespring.Model.Entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,7 @@ public class Certificado {
     private Long id;
     private String nomeDoCurso;
     private LocalDateTime dataDeEmissao;
+    @JsonIgnore
     @OneToOne(cascade = CascadeType.ALL)
     private Usuario usuario;
 }

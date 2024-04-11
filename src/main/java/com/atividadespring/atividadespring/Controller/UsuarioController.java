@@ -20,24 +20,22 @@ import java.util.List;
 @AllArgsConstructor
 @RestController
 @Controller
-@RequestMapping("/usuario")
+@RequestMapping("/api/users")
 public class UsuarioController {
     private UsuarioService usuarioService;
 
     @PostMapping
     public ResponseEntity<Usuario> cadastrar(@RequestBody UsuarioCadastroDTO usuarioCadastroDTO){
         try{
-            usuarioService.cadastrar(usuarioCadastroDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(usuarioService.cadastrar(usuarioCadastroDTO),HttpStatus.OK);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
-    @PutMapping
-    public ResponseEntity<Usuario> editar(@RequestBody UsuarioEdicaoDTO usuarioEdicaoDTO){
+    @PutMapping("{id}")
+    public ResponseEntity<Usuario> editar(@RequestBody UsuarioEdicaoDTO usuarioEdicaoDTO,@PathVariable Long id){
         try{
-            usuarioService.editar(usuarioEdicaoDTO);
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>( usuarioService.editar(usuarioEdicaoDTO,id), HttpStatus.OK);
         }catch (Exception exception){
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

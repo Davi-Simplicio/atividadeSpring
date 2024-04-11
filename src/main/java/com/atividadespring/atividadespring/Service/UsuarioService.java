@@ -9,6 +9,7 @@ import com.atividadespring.atividadespring.Model.Entity.Usuario;
 import com.atividadespring.atividadespring.Repository.CursoRepository;
 import com.atividadespring.atividadespring.Repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +19,22 @@ import java.util.List;
 @Service
 public class UsuarioService {
     private UsuarioRepository usuarioRepository;
-    public void cadastrar(UsuarioCadastroDTO usuarioCadastroDTO) throws Exception {
+    private ModelMapper modelMapper;
+
+    public Usuario cadastrar(UsuarioCadastroDTO usuarioCadastroDTO) throws Exception {
         try{
             Usuario usuario = new Usuario();
-            BeanUtils.copyProperties(usuarioCadastroDTO,usuario);
-            usuarioRepository.save(usuario);
+            modelMapper.map(usuarioCadastroDTO,usuario);
+            return usuarioRepository.save(usuario);
         }catch (Exception exception){
             throw new Exception();
         }
     }
-    public void editar(UsuarioEdicaoDTO usuarioEdicaoDTO) throws Exception {
+    public Usuario editar(UsuarioEdicaoDTO usuarioEdicaoDTO, Long id) throws Exception {
         try{
-            Usuario usuario = new Usuario();
-            BeanUtils.copyProperties(usuarioEdicaoDTO,usuario);
-            usuarioRepository.save(usuario);
+            Usuario usuario = buscarUm(id);
+            modelMapper.map(usuarioEdicaoDTO,usuario);
+            return usuarioRepository.save(usuario);
         }catch (Exception exception){
             throw new Exception();
         }

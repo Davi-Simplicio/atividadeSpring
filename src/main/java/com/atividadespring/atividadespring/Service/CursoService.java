@@ -9,6 +9,7 @@ import com.atividadespring.atividadespring.Model.Entity.Curso;
 import com.atividadespring.atividadespring.Repository.CertificadoRepository;
 import com.atividadespring.atividadespring.Repository.CursoRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
@@ -18,20 +19,22 @@ import java.util.List;
 @Service
 public class CursoService {
     private CursoRepository cursoRepository;
-    public void cadastrar(CursoCadastroDTO cursoCadastroDTO) throws Exception {
+    private ModelMapper modelMapper;
+
+    public Curso cadastrar(CursoCadastroDTO cursoCadastroDTO) throws Exception {
         try{
             Curso curso = new Curso();
-            BeanUtils.copyProperties(cursoCadastroDTO,curso);
-            cursoRepository.save(curso);
+            modelMapper.map(cursoCadastroDTO,curso);
+            return cursoRepository.save(curso);
         }catch (Exception exception){
             throw new Exception();
         }
     }
-    public void editar(CursoEdicaoDTO cursoEdicaoDTO) throws Exception {
+    public Curso editar(CursoEdicaoDTO cursoEdicaoDTO,Long id) throws Exception {
         try{
-            Curso curso = new Curso();
-            BeanUtils.copyProperties(cursoEdicaoDTO,curso);
-            cursoRepository.save(curso);
+            Curso curso = buscarUm(id);
+            modelMapper.map(cursoEdicaoDTO,curso);
+            return cursoRepository.save(curso);
         }catch (Exception exception){
             throw new Exception();
         }
